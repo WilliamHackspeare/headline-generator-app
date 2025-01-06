@@ -1,7 +1,6 @@
 import torch
 import streamlit as st
 from transformers import MarianMTModel, MarianTokenizer
-import requests
 
 MODEL_NAME = "williamhackspeare/LogicLoom-v1"
 
