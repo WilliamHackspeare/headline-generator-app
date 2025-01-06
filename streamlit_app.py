@@ -37,7 +37,7 @@ elif input_mode == "Upload file":
     uploaded_file = st.file_uploader("Upload a text file", type="txt")
     if uploaded_file:
         content = uploaded_file.read().decode("utf-8")
-        articles = [line.strip() for line in content.splitlines() if line.strip()]
+        articles = [content]
 
 if articles:
     st.write(f"Loaded {len(articles)} article(s). Generating headlines...")
