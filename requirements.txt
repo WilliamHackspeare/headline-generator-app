@@ -1,2 +1,5 @@
 streamlit
-openai
+requests
+os
+transformers
+torch

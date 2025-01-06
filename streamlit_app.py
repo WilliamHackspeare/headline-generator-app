@@ -1,53 +1,55 @@
+import torch
 import streamlit as st
-from openai import OpenAI
+from transformers import MarianMTModel, MarianTokenizer
+import requests
 
-# Show title and description.
-st.title("📄 Document question answering")
-st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-)
+MODEL_NAME = "williamhackspeare/LogicLoom-v1"
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
+@st.cache_resource
+def load_model():
+    model = MarianMTModel.from_pretrained(MODEL_NAME)
+    tokenizer = MarianTokenizer.from_pretrained(MODEL_NAME)
+    return model, tokenizer
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+def generate_headlines(articles, model, tokenizer, max_length=128):
+    inputs = tokenizer(articles, max_length=max_length, truncation=True, padding=True, return_tensors="pt")
 
-    # Let the user upload a file via `st.file_uploader`.
-    uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
-    )
-
-    # Ask the user for a question via `st.text_area`.
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="Can you give me a short summary?",
-        disabled=not uploaded_file,
-    )
-
-    if uploaded_file and question:
-
-        # Process the uploaded file and question.
-        document = uploaded_file.read().decode()
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
-
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
+    with torch.no_grad():
+        outputs = model.generate(
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            max_length=max_length,
+            num_beams=5
         )
+    return [tokenizer.decode(output, skip_special_tokens=True, clean_up_tokenization_spaces=True) for output in outputs]
 
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+st.title("📰 Headline Generator")
+
+# User input for text or file upload
+input_mode = st.radio("Choose input mode:", ("Enter text", "Upload file"))
+
+articles = []
+
+if input_mode == "Enter text":
+    input_text = st.text_area("Enter your text below:")
+    if input_text:
+        articles = [input_text]
+elif input_mode == "Upload file":
+    uploaded_file = st.file_uploader("Upload a text file", type="txt")
+    if uploaded_file:
+        content = uploaded_file.read().decode("utf-8")
+        articles = [line.strip() for line in content.splitlines() if line.strip()]
+
+if articles:
+    st.write(f"Loaded {len(articles)} article(s). Generating headlines...")
+
+    # Load the model and tokenizer
+    model, tokenizer = load_model()
+
+    # Generate headlines
+    headlines = generate_headlines(articles, model, tokenizer)
+
+    for i, (article, headline) in enumerate(zip(articles, headlines), start=1):
+        st.subheader(f"Article {i}")
+        st.text_area("Article Text", article, height=150, disabled=True)
+        st.text_input("Generated Headline", headline, disabled=True)
