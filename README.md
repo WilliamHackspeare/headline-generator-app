@@ -14,8 +14,6 @@ This repository contains a Streamlit app for generating headlines from text usin
   - Utilizes the fine-tuned MarianMT model for accurate and concise headlines.
 - **User-Friendly Interface:**
   - Interactive Streamlit UI for ease of use.
-- **Downloadable Output:**
-  - Generated headlines can be reviewed and downloaded as a CSV file.
 
 ---
 
@@ -61,9 +59,6 @@ The MarianMT model used in this app is hosted on Hugging Face under the reposito
   1. Process the input text.
   2. Generate a headline for each article using the model.
   3. Display the original article and the generated headline.
-
-### Downloading Results
-- After headlines are generated, a CSV download option will appear for saving the results.
 
 ---
 
