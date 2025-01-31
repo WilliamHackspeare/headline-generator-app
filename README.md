@@ -1,15 +1,15 @@
 # 📰 Headline Generator
 
-This repository contains a Streamlit app for generating headlines from text using a MarianMT model hosted on the Hugging Face Transformers hub. The model, `williamhackspeare/LogicLoom-v1`, has been fine-tuned for headline generation tasks. Users can input text directly or upload a text file containing articles, and the app will generate corresponding headlines.
+This repository contains a Streamlit app for generating headlines from text using a MarianMT model hosted on the Hugging Face Transformers hub. The model, `willhsp/headline-generator-opus-mt-en-mul`, has been fine-tuned from the `Helsinki-NLP/opus-mt-en-mul` model on the `valurank/News_headlines` dataset (both available on Hugging Face) for headline generation tasks. Users can input text directly or upload a text file containing articles, and the app will generate corresponding headlines.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://willhsp-logicloom.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://headline-generator-willhsp.streamlit.app/)
 
 ---
 
 ## 🚀 Features
 - **Multiple Input Modes:**
   - Enter article text directly in a text area.
-  - Upload a text file containing multiple articles (one per line).
+  - Upload a text file.
 - **High-Quality Headline Generation:**
   - Utilizes the fine-tuned MarianMT model for accurate and concise headlines.
 - **User-Friendly Interface:**
@@ -21,12 +21,12 @@ This repository contains a Streamlit app for generating headlines from text usin
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/WilliamHackspeare/logicloom3-app.git
-cd logicloom3-app
+git clone https://github.com/WilliamHackspeare/headline-generator-app.git
+cd headline-generator-app
 ```
 
 ### 2. Install Dependencies
-Ensure Python 3.7 or later is installed. Then, install the required Python packages:
+Ensure Python 3.11 or later is installed. Then, install the required Python packages:
 ```bash
 pip install -r requirements.txt
 ```
@@ -40,7 +40,7 @@ streamlit run headline_generator_app.py
 
 ## 💾 Model Information
 The MarianMT model used in this app is hosted on Hugging Face under the repository:
-[`williamhackspeare/LogicLoom-v1`](https://huggingface.co/williamhackspeare/LogicLoom-v1).
+[`willhsp/headline-generator-opus-mt-en-mul`](https://huggingface.co/willhsp/headline-generator-opus-mt-en-mul).
 
 ---
 
@@ -66,7 +66,7 @@ The MarianMT model used in this app is hosted on Hugging Face under the reposito
 - **Model:** MarianMT fine-tuned for headline generation.
 - **Frameworks:**
   - [Streamlit](https://streamlit.io/): For interactive UI.
-  - [Hugging Face Transformers](https://huggingface.co/transformers): For model inference.
+  - [Hugging Face Transformers](https://huggingface.co/transformers): For pretrained models, dataset, and model inference.
 - **Deployment:** Can be run locally or deployed on platforms like Streamlit Cloud or Heroku.
 
 ---
