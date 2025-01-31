@@ -2,6 +2,9 @@
 
 This Streamlit application generates news headlines from article text using a fine-tuned MarianMT machine translation model. The system combines NLP techniques with an intuitive interface for practical use in content creation workflows.
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://headline-generator-app-willhsp.streamlit.app/)
+
+
 ## 🚀 Key Features
 
 - **Dual Input Modes:**
