@@ -44,7 +44,11 @@ streamlit run streamlit_app.py
 - Input Format: Article text with bullet points
 - Output Format: Concise headline
 - Training Hardware: NVIDIA T4 GPU
-- Evaluation Metric: ROUGE score
+- Evaluation Metric: ROUGE-L, ROUGE-1, BLEU
+- Validation Scores:
+-   ROUGE-L: 0.7965
+-   ROUGE-1: 0.8057
+-   BLEU: 0.7816
 
 **Key Technical Specifications:**
 ```python
@@ -84,17 +88,10 @@ NUM_BEAMS = 5     # Beam search width
    - Side-by-side article/headline display
 
 
-## 🤝 Contribution Guidelines
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/improvement`)
-3. Commit changes with descriptive messages
-4. Push to branch (`git push origin feature/improvement`)
-5. Open pull request
 
 ## 📜 License
 
-MIT License - See [LICENSE](LICENSE) for details
+Apache-2.0 License
 
 ## 🔗 Resources
 
