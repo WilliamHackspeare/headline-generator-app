@@ -49,9 +49,9 @@ streamlit run streamlit_app.py
 - Training Hardware: NVIDIA T4 GPU
 - Evaluation Metric: ROUGE-L, ROUGE-1, BLEU
 - Validation Scores:
--   ROUGE-L: 0.7965
--   ROUGE-1: 0.8057
--   BLEU: 0.7816
+  - ROUGE-L: 0.7965
+  - ROUGE-1: 0.8057
+  - BLEU: 0.7816
 
 **Key Technical Specifications:**
 ```python
