@@ -1,86 +1,103 @@
-# 📰 Headline Generator
+# 📰 Headline Generator Model
 
-This repository contains a Streamlit app for generating headlines from text using a MarianMT model hosted on the Hugging Face Transformers hub. The model, `willhsp/headline-generator-opus-mt-en-mul`, has been fine-tuned from the `Helsinki-NLP/opus-mt-en-mul` model on the `valurank/News_headlines` dataset (both available on Hugging Face) for headline generation tasks. Users can input text directly or upload a text file containing articles, and the app will generate corresponding headlines.
+This Streamlit application generates news headlines from article text using a fine-tuned MarianMT machine translation model. The system combines NLP techniques with an intuitive interface for practical use in content creation workflows.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://headline-generator-willhsp.streamlit.app/)
+## 🚀 Key Features
 
----
+- **Dual Input Modes:**
+  - Direct text input through text area
+  - Batch processing via text file upload
+- **Advanced NLP Model:**
+  - Fine-tuned MarianMT architecture
+  - Beam search decoding with 5 beams
+  - Automatic text truncation/padding
+- **Production-Ready Implementation:**
+  - Model caching with `@st.cache_resource`
+  - GPU acceleration support
+  - Clean text normalization
 
-## 🚀 Features
-- **Multiple Input Modes:**
-  - Enter article text directly in a text area.
-  - Upload a text file.
-- **High-Quality Headline Generation:**
-  - Utilizes the fine-tuned MarianMT model for accurate and concise headlines.
-- **User-Friendly Interface:**
-  - Interactive Streamlit UI for ease of use.
+## 🛠️ Installation & Setup
 
----
-
-## 🛠 Setup Instructions
-
-### 1. Clone the Repository
+1. Clone repository:
 ```bash
 git clone https://github.com/WilliamHackspeare/headline-generator-app.git
 cd headline-generator-app
 ```
 
-### 2. Install Dependencies
-Ensure Python 3.11 or later is installed. Then, install the required Python packages:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run the Application
+3. Launch application:
 ```bash
-streamlit run headline_generator_app.py
+streamlit run streamlit_app.py
 ```
 
----
+## 🧠 Model Architecture
 
-## 💾 Model Information
-The MarianMT model used in this app is hosted on Hugging Face under the repository:
-[`willhsp/headline-generator-opus-mt-en-mul`](https://huggingface.co/willhsp/headline-generator-opus-mt-en-mul).
+**Base Model:** `Helsinki-NLP/opus-mt-en-mul`  
+**Fine-Tuned Version:** [`willhsp/headline-generator-opus-mt-en-mul`](https://huggingface.co/willhsp/headline-generator-opus-mt-en-mul)
 
----
+**Training Details:**
+- Dataset: `valurank/News_headlines` (Hugging Face)
+- Input Format: Article text with bullet points
+- Output Format: Concise headline
+- Training Hardware: NVIDIA T4 GPU
+- Evaluation Metric: ROUGE score
 
-## 📜 Usage Guide
+**Key Technical Specifications:**
+```python
+MAX_LENGTH = 128  # Tokens
+NUM_BEAMS = 5     # Beam search width
+```
 
-### Input Options
-1. **Enter Text Mode:**
-   - Select "Enter text" from the input mode options.
-   - Paste or type your article text into the provided text area.
-2. **Upload File Mode:**
-   - Select "Upload file" from the input mode options.
-   - Upload a `.txt` file with one article per line.
+## 💻 Application Workflow
 
-### Generating Headlines
-- Once input is provided, the app will:
-  1. Process the input text.
-  2. Generate a headline for each article using the model.
-  3. Display the original article and the generated headline.
+1. **Model Loading:**
+   - Downloads pretrained weights from Hugging Face Hub
+   - Initializes tokenizer with MarianMT settings
+   - Caches model in memory for subsequent runs
 
----
+2. **Text Processing:**
+   ```python
+   def generate_headlines(articles, model, tokenizer):
+       inputs = tokenizer(articles, 
+                         max_length=128,
+                         truncation=True,
+                         padding=True,
+                         return_tensors="pt")
+       
+       outputs = model.generate(
+           input_ids=inputs["input_ids"],
+           attention_mask=inputs["attention_mask"],
+           num_beams=5
+       )
+       return [tokenizer.decode(output, skip_special_tokens=True) 
+               for output in outputs]
+   ```
 
-## 🔧 Technical Details
-- **Model:** MarianMT fine-tuned for headline generation.
-- **Frameworks:**
-  - [Streamlit](https://streamlit.io/): For interactive UI.
-  - [Hugging Face Transformers](https://huggingface.co/transformers): For pretrained models, dataset, and model inference.
-- **Deployment:** Can be run locally or deployed on platforms like Streamlit Cloud or Heroku.
+3. **User Interface:**
+   - Radio button input selection
+   - Dynamic text area/file uploader
+   - Progress indicators during generation
+   - Side-by-side article/headline display
 
----
 
-## 🛡 License
-This project is licensed under the MIT License.
+## 🤝 Contribution Guidelines
 
----
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/improvement`)
+3. Commit changes with descriptive messages
+4. Push to branch (`git push origin feature/improvement`)
+5. Open pull request
 
-## 🧩 Contribution
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## 📜 License
 
----
+MIT License - See [LICENSE](LICENSE) for details
 
-## 🌟 Acknowledgements
-- Hugging Face for providing the Transformers library.
-- Streamlit for making app development simple and elegant.
+## 🔗 Resources
+
+- [Hugging Face Transformers Documentation](https://huggingface.co/docs/transformers)
+- [Streamlit Component Gallery](https://streamlit.io/gallery)
+- [MarianMT Paper](https://arxiv.org/abs/1809.00368)
