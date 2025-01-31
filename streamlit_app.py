@@ -11,7 +11,7 @@ def load_model():
     return model, tokenizer
 
 def generate_headlines(articles, model, tokenizer):
-    inputs = tokenizer(articles, max_length=256, truncation=True, padding=True, return_tensors="pt")
+    inputs = tokenizer(articles, max_length=128, truncation=True, padding=True, return_tensors="pt")
 
     with torch.no_grad():
         outputs = model.generate(
