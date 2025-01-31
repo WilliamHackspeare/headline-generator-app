@@ -10,14 +10,14 @@ def load_model():
     tokenizer = MarianTokenizer.from_pretrained(MODEL_NAME)
     return model, tokenizer
 
-def generate_headlines(articles, model, tokenizer, max_length=256):
-    inputs = tokenizer(articles, max_length=max_length, truncation=True, padding=True, return_tensors="pt")
+def generate_headlines(articles, model, tokenizer):
+    inputs = tokenizer(articles, max_length=256, truncation=True, padding=True, return_tensors="pt")
 
     with torch.no_grad():
         outputs = model.generate(
             input_ids=inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
-            max_length=max_length,
+            max_length=128,
             num_beams=8
         )
     return [tokenizer.decode(output, skip_special_tokens=True, clean_up_tokenization_spaces=True) for output in outputs]
