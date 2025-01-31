@@ -2,7 +2,7 @@ import torch
 import streamlit as st
 from transformers import MarianMTModel, MarianTokenizer
 
-MODEL_NAME = "williamhackspeare/LogicLoom-v1"
+MODEL_NAME = "willhsp/headline-generator-opus-mt-en-mul"
 
 @st.cache_resource
 def load_model():
