@@ -18,7 +18,7 @@ def generate_headlines(articles, model, tokenizer):
             input_ids=inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
             max_length=128,
-            num_beams=8
+            num_beams=5
         )
     return [tokenizer.decode(output, skip_special_tokens=True, clean_up_tokenization_spaces=True) for output in outputs]
 
