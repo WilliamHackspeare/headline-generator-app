@@ -7,6 +7,11 @@ requires-python = ">=3.13"
 dependencies = [
     "bitsandbytes>=0.47.0",
     "datasets>=4.1.1",
+    "flash-attn>=2.8.3",
+    "huggingface-hub>=0.35.1",
+    "nltk>=3.9.1",
+    "numpy>=2.3.3",
+    "pandas>=2.3.2",
     "peft>=0.17.1",
     "rouge-score>=0.1.2",
     "sacremoses>=0.1.1",
@@ -16,3 +21,6 @@ dependencies = [
     "transformers[torch]>=4.56.2",
     "trl>=0.23.0",
 ]
+
+[tool.uv.extra-build-dependencies]
+flash-attn = ["torch"]
